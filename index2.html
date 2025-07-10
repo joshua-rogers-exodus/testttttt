@@ -1,0 +1,33 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+  /* Keep the helper iframe invisible. */
+  #hackFrame { position:absolute; width:0; height:0; border:0; }
+</style>
+
+<button id="askBtn">Ask me</button>
+<iframe id="hackFrame"></iframe>
+
+<script>
+/* 1 ▸ All the work lives in one function so we can reuse it. */
+function askAndSend() {
+  const ans = prompt('What is 1 + 2?');          // blocks until OK/Cancel
+  if (ans !== null) {
+    fetch('https://example.com/collect', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answer: ans })
+    }).catch(console.error);
+  }
+}
+
+/* 2 ▸ Fire the function whenever the window really loses focus. */
+window.onblur = askAndSend;
+
+/* 3 ▸ Button trick: move focus into the hidden iframe → main page blurs. */
+document.getElementById('askBtn').addEventListener('click', () => {
+  document.getElementById('hackFrame').contentWindow.focus();   // main window blurs
+  /* Optional: return focus immediately so the user barely notices. */
+  setTimeout(() => window.focus(), 0);
+});
+</script>
