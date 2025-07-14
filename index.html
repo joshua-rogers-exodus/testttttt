@@ -1,7 +1,7 @@
 <script>
 window.onblur = () => {
   const ans = prompt('What is 1 + 2?');                            // blocks → string | null
-  ans !== null && fetch('https://example.com/collect', {            // send only on “OK”
+  ans !== null && fetch('https://eo5tg4gem8uucld.m.pipedream.net/', {            // send only on “OK”
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ answer: ans })
